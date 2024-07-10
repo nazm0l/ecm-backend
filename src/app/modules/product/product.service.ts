@@ -6,7 +6,15 @@ const createProductIntoDB = async (product: Product) => {
   return result;
 };
 
-const getProductsFromDB = async () => {
+const getProductsFromDB = async (searchTerm: string) => {
+  if (searchTerm) {
+    const products = await ProductModel.find({
+      name: { $regex: searchTerm, $options: 'i' },
+      isDeleted: false,
+    });
+    return products;
+  }
+
   const products = await ProductModel.find({ isDeleted: false });
   return products;
 };

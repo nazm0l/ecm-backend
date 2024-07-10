@@ -23,7 +23,9 @@ const createProduct = async (req: Request, res: Response): Promise<void> => {
 
 const getProducts = async (req: Request, res: Response): Promise<void> => {
   try {
-    const products = await ProductServices.getProductsFromDB();
+    const searchTerm = req.query.searchTerm as string;
+    console.log(searchTerm);
+    const products = await ProductServices.getProductsFromDB(searchTerm);
 
     // return response
     res.status(200).json({
