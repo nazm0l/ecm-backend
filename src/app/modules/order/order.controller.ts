@@ -1,5 +1,29 @@
 import { Request, Response } from 'express';
 import { OrderServices } from './order.service';
+import orderValidationSchema from './order.validation';
+
+const createOrder = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const order = req.body;
+
+    const zodParsedData = orderValidationSchema.parse(order);
+
+    const result = await OrderServices.createOrderIntoDB(zodParsedData);
+
+    // return response
+    res.status(201).json({
+      success: true,
+      message: 'Order created successfully',
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong',
+      error: err.message,
+    });
+  }
+};
 
 const getOrders = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -12,26 +36,6 @@ const getOrders = async (req: Request, res: Response): Promise<void> => {
       success: true,
       message: 'Orders fetched successfully',
       data: orders,
-    });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: 'Something went wrong',
-      error: err.message,
-    });
-  }
-};
-
-const createOrder = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const order = req.body;
-    const result = await OrderServices.createOrderIntoDB(order);
-
-    // return response
-    res.status(201).json({
-      success: true,
-      message: 'Order created successfully',
-      data: result,
     });
   } catch (err: any) {
     res.status(500).json({
