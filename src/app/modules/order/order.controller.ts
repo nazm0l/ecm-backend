@@ -20,6 +20,27 @@ const getOrders = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+const createOrder = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const order = req.body;
+    const result = await OrderServices.createOrderIntoDB(order);
+
+    // return response
+    res.status(201).json({
+      success: true,
+      message: 'Order created successfully',
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+      error: err.message,
+    });
+  }
+};
+
 export const OrderControllers = {
   getOrders,
+  createOrder,
 };
