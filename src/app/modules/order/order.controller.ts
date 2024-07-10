@@ -16,7 +16,7 @@ const getOrders = async (req: Request, res: Response): Promise<void> => {
   } catch (err: any) {
     res.status(500).json({
       success: false,
-      message: 'Internal server error',
+      message: 'Something went wrong',
       error: err.message,
     });
   }
@@ -36,7 +36,7 @@ const createOrder = async (req: Request, res: Response): Promise<void> => {
   } catch (err: any) {
     res.status(500).json({
       success: false,
-      message: 'Internal server error',
+      message: 'Something went wrong',
       error: err.message,
     });
   }
