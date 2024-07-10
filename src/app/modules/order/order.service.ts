@@ -1,7 +1,11 @@
 import { Order } from './order.interface';
 import { OrderModel } from './order.model';
 
-const getOrdersFromDB = async () => {
+const getOrdersFromDB = async (email: string) => {
+  if (email) {
+    const orders = await OrderModel.find({ email });
+    return orders;
+  }
   const orders = await OrderModel.find();
   return orders;
 };

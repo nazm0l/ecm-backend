@@ -3,7 +3,9 @@ import { OrderServices } from './order.service';
 
 const getOrders = async (req: Request, res: Response): Promise<void> => {
   try {
-    const orders = await OrderServices.getOrdersFromDB();
+    const email = req.query.email as string;
+
+    const orders = await OrderServices.getOrdersFromDB(email);
 
     // return response
     res.status(200).json({
